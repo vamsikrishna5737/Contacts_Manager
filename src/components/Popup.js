@@ -1,7 +1,6 @@
 import React from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { useStateValue } from "../context/StateProvider";
-// import fs from "fs";
 
 const Popup = ({ fetchData, setIsPop, setSuccessUp }) => {
   // eslint-disable-next-line

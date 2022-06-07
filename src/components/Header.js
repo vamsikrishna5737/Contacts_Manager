@@ -1,15 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { useStateValue } from "../context/StateProvider";
 import { actionType } from "../context/reducer";
 import user from "../utils/user.svg";
 import { motion } from "framer-motion";
 
 const Header = () => {
-  // eslint-disable-next-line
   const [state, dispatch] = useStateValue();
-  const [key, setKey] = useState();
   const handleChange = (e) => {
-    setKey(e.target.value);
     dispatch({ type: actionType.SEARCH, payload: { key: e.target.value } });
   };
 
@@ -23,7 +20,6 @@ const Header = () => {
           <input
             type="search"
             placeholder="Search by Email Id ....."
-            value={key}
             className="searchBox"
             onChange={handleChange}
           />

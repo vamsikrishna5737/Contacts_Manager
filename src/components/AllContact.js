@@ -12,6 +12,7 @@ import { motion } from "framer-motion";
 import Confirm from "./Confirm";
 import SucessDelete from "./SuccessDelete";
 import SuccessUpload from "./SuccessUpload";
+import Footer from "./Footer";
 
 const AllContact = () => {
   const navigate = useNavigate();
@@ -83,6 +84,25 @@ const AllContact = () => {
     console.log(response);
   };
 
+  const download = async () => {
+    if (Object.keys(state.mark).length === 0)
+      return window.alert("Please Select some contact first");
+    const jsonResponse = await fetch(process.env.REACT_APP_API + "/download", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: state.user.token,
+      },
+      body: JSON.stringify(state.mark),
+    });
+    const response = await jsonResponse.json();
+    if (response.status === "sucess") {
+      window.location.href = response.link;
+    } else {
+      navigate("/");
+    }
+  };
+
   return (
     <div className="mainpage">
       <section className="hero">
@@ -95,6 +115,8 @@ const AllContact = () => {
               src={deleteP}
               alt="delete"
               onClick={() => {
+                if (Object.keys(state.mark).length === 0)
+                  return window.alert("Select some contact first");
                 setConf(!conf);
                 setIsPop(false);
               }}
@@ -110,7 +132,12 @@ const AllContact = () => {
               }}
             />
 
-            <motion.img whileTap={{ scale: 0.75 }} src={exportP} alt="export" />
+            <motion.img
+              whileTap={{ scale: 0.75 }}
+              src={exportP}
+              alt="export"
+              onClick={download}
+            />
           </div>
         </div>
 
@@ -143,7 +170,7 @@ const AllContact = () => {
               <th className="designation">Designation</th>
               <th className="company">Company</th>
               <th className="industry">Industry</th>
-              <th className="email">Email</th>
+              <th className="emailHead">Email</th>
               <th className="phoneNumber">Phone Number</th>
               <th className="country">Country</th>
               <th className="action">Action</th>
@@ -160,6 +187,8 @@ const AllContact = () => {
             ))}
           </tbody>
         </table>
+
+        <Footer />
       </section>
     </div>
   );

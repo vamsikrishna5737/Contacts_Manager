@@ -1,7 +1,7 @@
 const getUser = () => {
   return localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
-    : { email: "No User" };
+    : { email: "NA", token: "NA" };
 };
 
 const initialState = {

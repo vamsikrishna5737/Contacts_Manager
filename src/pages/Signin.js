@@ -14,7 +14,6 @@ const Signin = () => {
   const navigate = useNavigate();
   const [msg, setMsg] = useState(null);
   const passRef = useRef();
-  // eslint-disable-next-line
   const [state, dispatch] = useStateValue();
 
   const handleSubmit = async (e) => {

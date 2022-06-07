@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useStateValue } from "../context/StateProvider";
 import { actionType } from "../context/reducer";
 import singleDelete from "../utils/singleDelete.png";
@@ -18,6 +18,8 @@ const SingleContact = ({
 }) => {
   const [state, dispatch] = useStateValue();
   const inputRef = useRef();
+  const [isHover, setIsHover] = useState(false);
+
   const handleClick = async (_id) => {
     const deleteConct = {};
     deleteConct[_id] = 1;
@@ -51,34 +53,54 @@ const SingleContact = ({
   });
 
   return (
-    <tr>
-      <td className="checkboxs">
-        <input
-          type="checkbox"
-          ref={inputRef}
-          onClick={() =>
-            dispatch({ type: actionType.ADD_MARK, payload: { id: _id } })
-          }
-        />
-      </td>
-      <td className="name">{name}</td>
-      <td className="designation">{designation}</td>
-      <td className="company">{company}</td>
-      <td className="industry">{industry}</td>
-      <td className="email">{email}</td>
-      <td className="phoneNumber">{phNo}</td>
-      <td className="country">{country}</td>
-      <td className="action">
-        <motion.img
-          whileTap={{ scale: 0.8 }}
-          src={singleDelete}
-          alt="Delete"
-          onClick={() => {
-            handleClick(_id);
-          }}
-        />
-      </td>
-    </tr>
+    <>
+      <tr>
+        <td className="checkboxs">
+          <input
+            type="checkbox"
+            ref={inputRef}
+            onClick={() =>
+              dispatch({ type: actionType.ADD_MARK, payload: { id: _id } })
+            }
+          />
+        </td>
+        <td className="name">{name}</td>
+        <td className="designation">{designation}</td>
+        <td className="company">{company}</td>
+        <td className="industry">{industry}</td>
+        <td
+          className="email"
+          onMouseEnter={() => setIsHover(true)}
+          onMouseLeave={() => setIsHover(false)}
+        >
+          {email}
+          {isHover && (
+            <p className="emailHover">
+              <a
+                href="/"
+                onClick={(e) => {
+                  e.preventDefault();
+                }}
+              >
+                {email}
+              </a>
+            </p>
+          )}
+        </td>
+        <td className="phoneNumber">{phNo}</td>
+        <td className="country">{country}</td>
+        <td className="action">
+          <motion.img
+            whileTap={{ scale: 0.8 }}
+            src={singleDelete}
+            alt="Delete"
+            onClick={() => {
+              handleClick(_id);
+            }}
+          />
+        </td>
+      </tr>
+    </>
   );
 };
 
